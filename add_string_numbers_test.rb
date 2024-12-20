@@ -89,4 +89,11 @@ describe "add string numbers" do
     end
     assert_match /no delimiter passed/, exception.message
   end
+
+  it "raise error if anything other than string is passed" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers([1, 2, 3])
+    end
+    assert_match /not a string/, exception.message
+  end
 end

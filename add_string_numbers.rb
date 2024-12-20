@@ -5,6 +5,7 @@ class StringCalculatorInput
   CUSTOM_DELIMITER_PATTERN = %r{//(.+)\n(.+)}
 
   def initialize(input)
+    raise StringCalculatorError, "not a string" unless input.is_a?(String)
     @input = input
   end
 
