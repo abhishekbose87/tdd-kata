@@ -77,4 +77,19 @@ describe "add string numbers" do
   it "works for a multiple numbers separated by newlines and commas" do
     assert_equal 6, add_string_numbers("1\n2,3")
   end
+
+  it "support different delimiters like semicolon" do
+    assert_equal 3, add_string_numbers("//;\n1;2")
+  end
+
+  it "support different delimiters like $" do
+    assert_equal 3, add_string_numbers("//$\n1$2")
+  end
+
+  it "raise error if no delimiter found" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers("// \n1$2")
+    end
+    assert_match /no delimiter passed/, exception.message
+  end
 end

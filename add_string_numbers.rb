@@ -1,9 +1,13 @@
 class StringCalculatorError < StandardError; end
 
-def add_string_numbers(numbers)
-  return 0 if numbers.strip.empty?
+def add_string_numbers(input)
+  return 0 if input.strip.empty?
 
-  numbers_string_array = numbers.split(/[,\n]/).reject { |num| num.strip.empty? }
+  delimiter, numbers_string = extract_delimiter_and_numbers(input)
+  raise StringCalculatorError, "no delimiter passed" if delimiter.strip.empty?
+
+  split_pattern = /[#{Regexp.escape(delimiter)}\n]/
+  numbers_string_array = numbers_string.split(split_pattern).reject { |num| num.strip.empty? }
   raise StringCalculatorError, "no numbers passed" if numbers_string_array.length == 0
 
   numbers = numbers_string_array.map do |num|
@@ -20,4 +24,18 @@ def add_string_numbers(numbers)
     sum += num
   end
   return sum
+end
+
+def extract_delimiter_and_numbers(input)
+  if input.start_with?("//")
+    delimiter_split_pattern = /#{Regexp.escape("//")}(.+)\n(.+)/
+    match = input.match(delimiter_split_pattern)
+    if match
+      delimiter = match[1]
+      numbers = match[2]
+      return delimiter, numbers
+    end
+  end
+
+  return ",", input
 end
