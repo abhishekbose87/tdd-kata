@@ -56,6 +56,6 @@ class StringCalculatorInput
   end
 end
 
-def add_string_numbers(input)
+def add(input)
   StringCalculatorInput.new(input).numbers.sum
 end
