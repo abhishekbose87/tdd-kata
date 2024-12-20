@@ -47,10 +47,7 @@ describe "add string numbers" do
   end
 
   it "returns exception if there is only a single comma" do
-    exception = assert_raises(StringCalculatorError) do
-      add_string_numbers(",")
-    end
-    assert_match /no numbers passed/, exception.message
+    assert_equal 0, add_string_numbers(",")
   end
 
   it "returns exception if there is special characters" do

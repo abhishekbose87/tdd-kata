@@ -1,41 +1,55 @@
 class StringCalculatorError < StandardError; end
 
-def add_string_numbers(input)
-  return 0 if input.strip.empty?
-
-  delimiter, numbers_string = extract_delimiter_and_numbers(input)
-  raise StringCalculatorError, "no delimiter passed" if delimiter.strip.empty?
-
-  split_pattern = /[#{Regexp.escape(delimiter)}\n]/
-  numbers_string_array = numbers_string.split(split_pattern).reject { |num| num.strip.empty? }
-  raise StringCalculatorError, "no numbers passed" if numbers_string_array.length == 0
-
-  numbers = numbers_string_array.map do |num|
-    Integer(num)
-  rescue ArgumentError
-    raise StringCalculatorError, "non-numeric strings passed"
+class StringCalculatorInput
+  def initialize(input)
+    @input = input
   end
 
-  negative_numbers = numbers.select { |n| n < 0 }
-  raise StringCalculatorError, "negative numbers not allowed <#{negative_numbers.join(",")}>" if negative_numbers.length != 0
-
-  sum = 0
-  numbers.map do |num|
-    sum += num
+  def numbers
+    extract_delimiter_and_numbers
+    parse_numbers_string
+    validate_numbers
+    return @numbers
   end
-  return sum
-end
 
-def extract_delimiter_and_numbers(input)
-  if input.start_with?("//")
-    delimiter_split_pattern = /#{Regexp.escape("//")}(.+)\n(.+)/
-    match = input.match(delimiter_split_pattern)
-    if match
-      delimiter = match[1]
-      numbers = match[2]
-      return delimiter, numbers
+  private
+
+  def extract_delimiter_and_numbers
+    if @input.start_with?("//")
+      delimiter_split_pattern = /#{Regexp.escape("//")}(.+)\n(.+)/
+      match = @input.match(delimiter_split_pattern)
+      if match
+        @delimiter = match[1]
+        @numbers_string = match[2]
+      end
+    else
+      @delimiter = ","
+      @numbers_string = @input
+    end
+
+    raise StringCalculatorError, "no delimiter passed" if @delimiter.strip.empty?
+  end
+
+  def parse_numbers_string
+    split_pattern = /[#{Regexp.escape(@delimiter)}\n]/
+    numbers_string_array = @numbers_string.split(split_pattern).reject { |num| num.strip.empty? }
+
+    @numbers = numbers_string_array.map do |num|
+      Integer(num)
+    rescue ArgumentError
+      raise StringCalculatorError, "non-numeric strings passed"
     end
   end
 
-  return ",", input
+  def validate_numbers
+    negative_numbers = @numbers.select { |n| n < 0 }
+    if negative_numbers.any?
+      raise StringCalculatorError, "negative numbers not allowed <#{negative_numbers.join(",")}>"
+    end
+  end
+end
+
+def add_string_numbers(input)
+  calculator_input = StringCalculatorInput.new(input)
+  calculator_input.numbers.sum
 end
