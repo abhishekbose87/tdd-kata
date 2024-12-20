@@ -66,4 +66,8 @@ describe "add string numbers" do
     end
     assert_match /negative numbers passed/, exception.message
   end
+
+  it "works for a multiple numbers separated by newlines and commas" do
+    assert_equal 6, add_string_numbers("1\n2,3")
+  end
 end
