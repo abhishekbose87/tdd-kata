@@ -9,6 +9,7 @@ describe "add string numbers" do
   it "returns 0 for blank string" do
     assert_equal 0, add("    ")
   end
+
   it "returns 0 for blank string with newlines" do
     assert_equal 0, add("    \n\n")
   end
@@ -24,6 +25,7 @@ describe "add string numbers" do
   it "works for a multiple numbers separated by commas" do
     assert_equal 6, add("1,2,3")
   end
+
   it "works for a multiple numbers separated by commas with spaces and newlines" do
     assert_equal 6, add(" 1   \n, 2 , 3")
   end
