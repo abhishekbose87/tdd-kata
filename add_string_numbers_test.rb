@@ -31,4 +31,18 @@ describe "add string numbers" do
   it "works for a multiple numbers separated by commas with spaces and newlines with extra comma at the end" do
     assert_equal 6, add_string_numbers(" 1   \n, 2 , 3, ")
   end
+
+  it "returns exception if non-number string is passed" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers("abc, bcd")
+    end
+    assert_match /Method only accepts numbers/, exception.message
+  end
+
+  it "returns exception if non-number is passed along with number" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers("123, \n b,")
+    end
+    assert_match /Method only accepts numbers/, exception.message
+  end
 end
