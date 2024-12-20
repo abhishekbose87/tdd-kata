@@ -33,13 +33,13 @@ describe "add string numbers" do
   end
 
   it "returns exception if non-number string is passed" do
-    assert_raises(StringCalculatorError, "non-numeric strings passed") do
+    assert_raises(StringCalculator::Error, "non-numeric strings passed") do
       add("abc, bcd")
     end
   end
 
   it "returns exception if non-number is passed along with number" do
-    assert_raises(StringCalculatorError, "non-numeric strings passed") do
+    assert_raises(StringCalculator::Error, "non-numeric strings passed") do
       add("123, \n b,")
     end
   end
@@ -49,19 +49,19 @@ describe "add string numbers" do
   end
 
   it "returns exception if there is special characters" do
-    assert_raises(StringCalculatorError, "non-numeric strings passed") do
+    assert_raises(StringCalculator::Error, "non-numeric strings passed") do
       add("$$")
     end
   end
 
   it "returns exception if there is negative numbers" do
-    assert_raises(StringCalculatorError, "negative numbers not allowed <-5>") do
+    assert_raises(StringCalculator::Error, "negative numbers not allowed <-5>") do
       add("1, 3, 4, -5")
     end
   end
 
   it "returns exception if there is multiple negative numbers" do
-    assert_raises(StringCalculatorError, "negative numbers not allowed <-3,-5>") do
+    assert_raises(StringCalculator::Error, "negative numbers not allowed <-3,-5>") do
       add("1, -3, 4, -5")
     end
   end
@@ -79,13 +79,13 @@ describe "add string numbers" do
   end
 
   it "raise error if no delimiter found" do
-    assert_raises(StringCalculatorError, "no delimiter passed") do
+    assert_raises(StringCalculator::Error, "no delimiter passed") do
       add("// \n1$2")
     end
   end
 
   it "raise error if anything other than string is passed" do
-    assert_raises(StringCalculatorError, "not a string") do
+    assert_raises(StringCalculator::Error, "not a string") do
       add([1, 2, 3])
     end
   end
