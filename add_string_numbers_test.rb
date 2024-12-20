@@ -33,17 +33,15 @@ describe "add string numbers" do
   end
 
   it "returns exception if non-number string is passed" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "non-numeric strings passed") do
       add("abc, bcd")
     end
-    assert_match /non-numeric strings passed/, exception.message
   end
 
   it "returns exception if non-number is passed along with number" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "non-numeric strings passed") do
       add("123, \n b,")
     end
-    assert_match /non-numeric strings passed/, exception.message
   end
 
   it "returns exception if there is only a single comma" do
@@ -51,24 +49,21 @@ describe "add string numbers" do
   end
 
   it "returns exception if there is special characters" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "non-numeric strings passed") do
       add("$$")
     end
-    assert_match /non-numeric strings passed/, exception.message
   end
 
   it "returns exception if there is negative numbers" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "negative numbers not allowed <-5>") do
       add("1, 3, 4, -5")
     end
-    assert_match /negative numbers not allowed <-5>/, exception.message
   end
 
   it "returns exception if there is multiple negative numbers" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "negative numbers not allowed <-3,-5>") do
       add("1, -3, 4, -5")
     end
-    assert_match /negative numbers not allowed <-3,-5>/, exception.message
   end
 
   it "works for a multiple numbers separated by newlines and commas" do
@@ -84,16 +79,14 @@ describe "add string numbers" do
   end
 
   it "raise error if no delimiter found" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "no delimiter passed") do
       add("// \n1$2")
     end
-    assert_match /no delimiter passed/, exception.message
   end
 
   it "raise error if anything other than string is passed" do
-    exception = assert_raises(StringCalculatorError) do
+    assert_raises(StringCalculatorError, "not a string") do
       add([1, 2, 3])
     end
-    assert_match /not a string/, exception.message
   end
 end
