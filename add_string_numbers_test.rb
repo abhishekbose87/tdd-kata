@@ -16,4 +16,8 @@ describe "add string numbers" do
   it "works for a single number" do
     assert_equal 1, add_string_numbers("1")
   end
+
+  it "works for a single number with spaces and newlines" do
+    assert_equal 1, add_string_numbers(" 1   \n")
+  end
 end
