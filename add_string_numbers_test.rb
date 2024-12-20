@@ -36,13 +36,27 @@ describe "add string numbers" do
     exception = assert_raises(StringCalculatorError) do
       add_string_numbers("abc, bcd")
     end
-    assert_match /Method only accepts numbers/, exception.message
+    assert_match /non-numeric strings passed/, exception.message
   end
 
   it "returns exception if non-number is passed along with number" do
     exception = assert_raises(StringCalculatorError) do
       add_string_numbers("123, \n b,")
     end
-    assert_match /Method only accepts numbers/, exception.message
+    assert_match /non-numeric strings passed/, exception.message
+  end
+
+  it "returns exception if there is only a single comma" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers(",")
+    end
+    assert_match /no numbers passed/, exception.message
+  end
+
+  it "returns exception if there is special characters" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers("$$")
+    end
+    assert_match /non-numeric strings passed/, exception.message
   end
 end
