@@ -59,4 +59,11 @@ describe "add string numbers" do
     end
     assert_match /non-numeric strings passed/, exception.message
   end
+
+  it "returns exception if there is special characters" do
+    exception = assert_raises(StringCalculatorError) do
+      add_string_numbers("1, 3, 4, -5")
+    end
+    assert_match /negative numbers passed/, exception.message
+  end
 end

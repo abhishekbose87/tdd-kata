@@ -11,6 +11,7 @@ def add_string_numbers(numbers)
     rescue ArgumentError
       raise StringCalculatorError, "non-numeric strings passed"
     end
+    raise StringCalculatorError, "negative numbers passed" if num.to_i < 0
     sum += num.to_i
   end
   return sum
