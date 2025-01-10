@@ -10,8 +10,8 @@ module StringCalculator
       @input = input
     end
 
-    def numbers
-      @numbers ||= parse_and_validate
+    def numbers_with_delimiter
+      @numbers_with_delimiter ||= parse_and_validate
     end
 
     private
@@ -21,7 +21,10 @@ module StringCalculator
       validate_delimiter!(delimiter)
       numbers = extract_numbers(numbers_string, delimiter)
       validate_negative_numbers!(numbers)
-      numbers
+      {
+        delimiter: delimiter,
+        numbers: numbers,
+      }
     end
 
     def parse_input
@@ -59,5 +62,25 @@ module StringCalculator
 end
 
 def add(input)
-  StringCalculator::Input.new(input).numbers.sum
+  result = StringCalculator::Input.new(input).numbers_with_delimiter
+  delimiter = result[:delimiter]
+  numbers = result[:numbers]
+  if (delimiter == "*")
+    multiply(numbers)
+  else
+    sum(numbers)
+  end
+end
+
+def sum(numbers)
+  numbers.sum
+end
+
+def multiply(numbers)
+  numbers.inject { |res, num| res * num }
+
+  # numbers.each do |num|
+  #   result *= num
+  # end
+  # result
 end

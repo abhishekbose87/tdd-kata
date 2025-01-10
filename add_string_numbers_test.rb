@@ -91,4 +91,8 @@ describe "add string numbers" do
       add([1, 2, 3])
     end
   end
+
+  it "custom impl: multiply numbers if * delimiter is used" do
+    assert_equal 12, add("//*\n1*2*3*2")
+  end
 end
